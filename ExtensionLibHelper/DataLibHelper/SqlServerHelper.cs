@@ -11,9 +11,10 @@ namespace BaseLib.Common.DataHelper
     /// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
     /// common uses of SqlClient
     /// </summary> 
-    public  class SqlServerHelper
+    public class SqlServerHelper
     {
         //public  string ConnStr = "Data Source=localhost;Initial Catalog=TopFiveLeagueDB;User ID=sa;Password=doyouloveme123!";
+        private SqlHelperParameterCache _sqlHelperParameterCache = new SqlHelperParameterCache();
         /// <summary>
         /// 存放数据库连接串
         /// </summary>
@@ -52,7 +53,7 @@ namespace BaseLib.Common.DataHelper
         {
             if (strCommand != "")
             {
-                SqlServerHelper.ExecuteNonQuery(_ConnectionStr, CommandType.Text, strCommand);
+                ExecuteNonQuery(_ConnectionStr, CommandType.Text, strCommand);
             }
 
         }
@@ -343,7 +344,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -437,7 +438,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -531,7 +532,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -619,7 +620,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -721,7 +722,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -822,7 +823,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -995,7 +996,7 @@ namespace BaseLib.Common.DataHelper
             // If we receive parameter values, we need to figure out where they go
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 AssignParameterValues(commandParameters, parameterValues);
 
@@ -1067,7 +1068,7 @@ namespace BaseLib.Common.DataHelper
             // If we receive parameter values, we need to figure out where they go
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 AssignParameterValues(commandParameters, parameterValues);
 
@@ -1143,7 +1144,7 @@ namespace BaseLib.Common.DataHelper
             // If we receive parameter values, we need to figure out where they go
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 AssignParameterValues(commandParameters, parameterValues);
 
@@ -1247,7 +1248,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(_ConnectionStr, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(_ConnectionStr, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -1343,7 +1344,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -1437,7 +1438,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // PPull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -1821,7 +1822,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -1910,7 +1911,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -2096,7 +2097,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -2186,7 +2187,7 @@ namespace BaseLib.Common.DataHelper
             if ((parameterValues != null) && (parameterValues.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Assign the provided values to these parameters based on parameter order
                 AssignParameterValues(commandParameters, parameterValues);
@@ -2322,7 +2323,7 @@ namespace BaseLib.Common.DataHelper
             if ((sourceColumns != null) && (sourceColumns.Length > 0))
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Assign the provided source columns to these parameters based on parameter order
                 for (int index = 0; index < sourceColumns.Length; index++)
@@ -2357,16 +2358,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteNonQuery(CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteNonQuery(CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
+                return ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2389,16 +2390,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName);
+                return ExecuteNonQuery(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2422,16 +2423,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName);
+                return ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2456,16 +2457,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteDataSet(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteDataSet(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteDataset(connectionString, CommandType.StoredProcedure, spName);
+                return ExecuteDataset(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2488,16 +2489,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteDataset(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteDataset(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteDataset(connection, CommandType.StoredProcedure, spName);
+                return ExecuteDataset(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2521,16 +2522,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteDataset(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteDataset(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteDataset(transaction, CommandType.StoredProcedure, spName);
+                return ExecuteDataset(transaction, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2556,16 +2557,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteReader(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteReader(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteReader(connectionString, CommandType.StoredProcedure, spName);
+                return ExecuteReader(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2589,16 +2590,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteReader(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteReader(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteReader(connection, CommandType.StoredProcedure, spName);
+                return ExecuteReader(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2622,16 +2623,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteReader(transaction, CommandType.StoredProcedure, spName);
+                return ExecuteReader(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2656,16 +2657,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteScalar(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName);
+                return ExecuteScalar(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2688,16 +2689,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteScalar(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteScalar(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteScalar(connection, CommandType.StoredProcedure, spName);
+                return ExecuteScalar(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2721,16 +2722,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteScalar(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteScalar(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteScalar(transaction, CommandType.StoredProcedure, spName);
+                return ExecuteScalar(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2755,16 +2756,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteXmlReader(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName);
+                return ExecuteXmlReader(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2788,16 +2789,16 @@ namespace BaseLib.Common.DataHelper
             if (dataRow != null && dataRow.ItemArray.Length > 0)
             {
                 // Pull the parameters for this stored procedure from the parameter cache (or discover them & populate the cache)
-                SqlParameter[] commandParameters = SqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                SqlParameter[] commandParameters = _sqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
 
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlServerHelper.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlServerHelper.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName);
+                return ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2827,7 +2828,7 @@ namespace BaseLib.Common.DataHelper
 
         //Since this class provides only  methods, make the default constructor private to prevent 
         //instances from being created with "new SqlHelperParameterCache()"
-        private SqlHelperParameterCache() { }
+        public SqlHelperParameterCache() { }
 
         private  Hashtable paramCache = Hashtable.Synchronized(new Hashtable());
 
