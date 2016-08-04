@@ -71,7 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DataLibHelper\BaseDBHelper.cs" />
     <Compile Include="DataLibHelper\MySQLHelper.cs" />
     <Compile Include="DataLibHelper\SqliteHelper.cs" />
@@ -84,6 +83,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Common\" />
     <Folder Include="NetLibHelper\" />
     <Folder Include="ToolsLibHelper\" />
   </ItemGroup>
