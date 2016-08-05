@@ -57,6 +57,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileLibHelperTest.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtensionLibHelper\ExtensionLibHelper.csproj">
+      <Project>{368a6ce0-0d2c-443b-ac46-61c7d82ba530}</Project>
+      <Name>ExtensionLibHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

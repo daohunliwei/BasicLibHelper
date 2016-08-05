@@ -1,21 +1,32 @@
 ﻿/*没有过多检查，可能会有些许bug*/
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 namespace ExtensionLibHelper.FileLibHelper
 {
     public class IniHelper
     {
         private string iniFile;
-        public static System.Text.Encoding Encoding = System.Text.Encoding.UTF8;
+        private Encoding myEncoding = Encoding.UTF8;
         /// <summary>
-        /// 构造函数
+        /// 构造函数，只传递文件路径
         /// </summary>
         /// <param name="file">文件路径</param>
         public IniHelper(string file)
         {
             this.iniFile = file;
         }
-
+        /// <summary>
+        /// 构造函数，传递文件路径和编码格式
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="encoding"></param>
+        public IniHelper(string file, Encoding encoding)
+        {
+            this.iniFile = file;
+            this.myEncoding = encoding;
+        }
         #region 开放接口
 
         #endregion
@@ -24,7 +35,7 @@ namespace ExtensionLibHelper.FileLibHelper
         /// 批量读取键值对
         /// </summary>
         /// <returns>返回INI配置结构体列表,单独结构可以通过索引获取或设置</returns>
-        public System.Collections.Generic.List<IniStruct> ReadValues()
+        public List<IniStruct> ReadValues()
         {
             return ReadValues(this.iniFile);
         }
@@ -54,8 +65,8 @@ namespace ExtensionLibHelper.FileLibHelper
             string content = File.ReadAllText(file);
             if (content.Contains("�"))
             {
-                Encoding = System.Text.Encoding.GetEncoding("GBK");
-                content = File.ReadAllText(file, System.Text.Encoding.GetEncoding("GBK"));
+                var encode = System.Text.Encoding.GetEncoding("GBK");
+                content = File.ReadAllText(file, encode);
             }
             return content;
         }
@@ -117,7 +128,7 @@ namespace ExtensionLibHelper.FileLibHelper
             }
             return "";
         }
-        private static System.Collections.Generic.List<IniStruct> ReadValues(string file)
+        private static List<IniStruct> ReadValues(string file)
         {
             System.Collections.Generic.List<IniStruct> iniStructList = new System.Collections.Generic.List<IniStruct>();
             string content = GetText(file);
@@ -163,14 +174,14 @@ namespace ExtensionLibHelper.FileLibHelper
         }
         private void Write(string section, string key, string value, string comment)
         {
-            Write(this.iniFile, section, key, value, comment);
+            Write(this.iniFile, section, key, value, comment, this.myEncoding);
         }
-        private static void Write(string file, string section, string key, string value, string comment)
+        public static void Write(string file, string section, string key, string value, string comment, Encoding encoding)
         {
             bool isModified = false;
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             string content = GetText(file);
-            System.Text.StringBuilder newValueContent = new System.Text.StringBuilder();
+            StringBuilder newValueContent = new StringBuilder();
             #region 写入了节点
             if (!string.IsNullOrEmpty(section))
             {
@@ -291,7 +302,7 @@ namespace ExtensionLibHelper.FileLibHelper
                 }
             }
             #endregion
-            System.IO.File.WriteAllText(file, stringBuilder.ToString(), Encoding);
+            File.WriteAllText(file, stringBuilder.ToString(), encoding);
         }
     }
     /// <summary>
@@ -300,7 +311,7 @@ namespace ExtensionLibHelper.FileLibHelper
     public class IniStruct : System.Collections.IEnumerable
     {
 
-        private System.Collections.Generic.List<string> _commentList;
+        private List<string> _commentList;
         public IniStruct()
         {
             this._keyValuePairs = new System.Collections.Generic.SortedList<string, string>();

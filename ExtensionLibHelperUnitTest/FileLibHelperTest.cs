@@ -1,4 +1,6 @@
 ﻿using System;
+using ExtensionLibHelper;
+using ExtensionLibHelper.FileLibHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExtensionLibHelperUnitTest
@@ -9,6 +11,9 @@ namespace ExtensionLibHelperUnitTest
         [TestMethod]
         public void TestMethod1()
         {
+            //测试Ini读取
+            //var ini = new IniHelper("demo.ini");
+            //ini.Write("section", "test", "你麻痹");   
         }
     }
 }
