@@ -1,4 +1,5 @@
 ﻿/*没有过多检查，可能会有些许bug*/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -16,6 +17,7 @@ namespace ExtensionLibHelper.FileLibHelper
         public IniHelper(string file)
         {
             this.iniFile = file;
+            CheckFileExists();
         }
         /// <summary>
         /// 构造函数，传递文件路径和编码格式
@@ -26,39 +28,65 @@ namespace ExtensionLibHelper.FileLibHelper
         {
             this.iniFile = file;
             this.myEncoding = encoding;
+            CheckFileExists();
         }
-        #region 开放接口
-
-        #endregion
-
+        #region 读
         /// <summary>
-        /// 批量读取键值对
+        /// 实例方法-批量读取键值对
         /// </summary>
         /// <returns>返回INI配置结构体列表,单独结构可以通过索引获取或设置</returns>
         public List<IniStruct> ReadValues()
         {
-            return ReadValues(this.iniFile);
+            try
+            {
+                return ReadValues(this.iniFile);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
-        /// 读取指定节点的指定Key的值
+        /// 实例方法-读取指定节点的指定Key的值
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="section">节点</param>
         /// <returns>值</returns>
         public string ReadValue(string key, string section)
         {
-            string comments = "";
-            return ReadValue(this.iniFile, key, section, ref comments);
+            try
+            {
+                string comments = "";
+                return ReadValue(this.iniFile, key, section, ref comments);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private string ReadValue(string key, string section, ref string comments)
         {
             if (string.IsNullOrEmpty(this.iniFile)) throw new System.Exception("没有设置文件路径");
             return ReadValue(this.iniFile, key, section, ref comments);
         }
+        /// <summary>
+        /// 静态方法-读取指定文件的指定节点的Key值
+        /// </summary>
+        /// <param name="file">指定文件</param>
+        /// <param name="key">指定key</param>
+        /// <param name="section">指定节点</param>
+        /// <returns>值</returns>
         public static string ReadValue(string file, string key, string section)
         {
-            string comments = "";
-            return ReadValue(file, key, section, ref comments);
+            try
+            {
+                string comments = "";
+                return ReadValue(file, key, section, ref comments);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private static string GetText(string file)
         {
@@ -168,14 +196,35 @@ namespace ExtensionLibHelper.FileLibHelper
 
             return iniStructList;
         }
-        public void Write(string section, string key, string value)
+#endregion
+
+        #region 写
+        /// <summary>
+        /// 实例方法-写入指定节点指定Key的值
+        /// </summary>
+        /// <param name="section">节点</param>
+        /// <param name="key">key</param>
+        /// <param name="value">值</param>
+        public void Write(string section, string key, string value,string comment)
         {
-            Write(section, key, value, null);
+            try
+            {
+                Write(this.iniFile,section, key, value, comment,myEncoding);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        private void Write(string section, string key, string value, string comment)
-        {
-            Write(this.iniFile, section, key, value, comment, this.myEncoding);
-        }
+        /// <summary>
+        /// 静态方法-
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="section"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="comment">附加内容</param>
+        /// <param name="encoding"></param>
         public static void Write(string file, string section, string key, string value, string comment, Encoding encoding)
         {
             bool isModified = false;
@@ -304,6 +353,19 @@ namespace ExtensionLibHelper.FileLibHelper
             #endregion
             File.WriteAllText(file, stringBuilder.ToString(), encoding);
         }
+        #endregion
+
+        #region 私有方法
+
+        private void CheckFileExists()
+        {
+            if (File.Exists(iniFile))
+                return;
+            else
+                throw new FileNotFoundException("你说的这个文件："+iniFile+"\r\n我是真的找不到了啦！");
+        }
+
+        #endregion
     }
     /// <summary>
     /// 键值对的KeyPair类

@@ -7,39 +7,53 @@ namespace ExtensionLibHelper.DataLibHelper
     /// <summary>
     /// MySQL的链接帮助类
     /// </summary>
-    public static class MySQLHelper
+    public class MySQLHelper
     {
-        //public static string ConnStr = "";// "User Id=root;Host=112.90.60.61,3306;Database=lifequota;password=doyouloveme123!";
-        
-
         #region 参数
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
-        private static string _ConString = "";
-        public static string ConString
+        private string _ConString="";
+        /// <summary>
+        /// 数据库超时时间
+        /// </summary>
+        private int _Timeout = 99;
+        /// <summary>
+        /// 设置连接字符串
+        /// </summary>
+        public string ConString
         {
             set { _ConString = value; }
             get { return _ConString; }
         }
-        
-
         /// <summary>
         /// 数据库超时时间
         /// </summary>
-        public static int Timeout = 99;
+        public int Timeout
+        {
+            set { _Timeout = value; }
+            get { return _Timeout; }
+        }
         #endregion
+        //public string ConnStr = "";// "User Id=root;Host=112.90.60.61,3306;Database=lifequota;password=doyouloveme123!";
+        public MySQLHelper()
+        { 
+        }
+        public MySQLHelper(string Connstr)
+        {
+            _ConString = Connstr;
+        }
 
         #region Int
-        public static int ExecuteInt(CommandType commandType, string commandText)
+        public int ExecuteInt(CommandType commandType, string commandText)
         {
             return ExecuteInt(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static int ExecuteInt(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public int ExecuteInt(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteInt(null, commandType, commandText, commandParameters);
         }
-        public static int ExecuteInt(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public int ExecuteInt(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             object o = ExecuteObject(strCon, commandType, commandText, commandParameters);
             if (o == null)
@@ -50,15 +64,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region String
-        public static string ExecuteString(CommandType commandType, string commandText)
+        public string ExecuteString(CommandType commandType, string commandText)
         {
             return ExecuteString(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static string ExecuteString(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public string ExecuteString(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteString(null, commandType, commandText, commandParameters);
         }
-        public static string ExecuteString(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public string ExecuteString(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             object o = ExecuteObject(strCon, commandType, commandText, commandParameters);
             return (string)o;
@@ -66,15 +80,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region Object
-        public static object ExecuteObject(CommandType commandType, string commandText)
+        public object ExecuteObject(CommandType commandType, string commandText)
         {
             return ExecuteObject(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static object ExecuteObject(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public object ExecuteObject(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteObject(null, commandType, commandText, commandParameters);
         }
-        public static object ExecuteObject(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public object ExecuteObject(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             DataRow dr = ExecuteDataRow(strCon, commandType, commandText, commandParameters);
             if (dr == null || dr.ItemArray.Length <= 0)
@@ -85,15 +99,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region DataRow
-        public static DataRow ExecuteDataRow(CommandType commandType, string commandText)
+        public DataRow ExecuteDataRow(CommandType commandType, string commandText)
         {
             return ExecuteDataRow(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static DataRow ExecuteDataRow(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataRow ExecuteDataRow(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteDataRow(null, commandType, commandText, commandParameters);
         }
-        public static DataRow ExecuteDataRow(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataRow ExecuteDataRow(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             DataTable dr = ExecuteDataTable(strCon, commandType, commandText, commandParameters);
             if (dr == null || dr.Rows.Count <= 0)
@@ -104,15 +118,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region DataTable
-        public static DataTable ExecuteDataTable(CommandType commandType, string commandText)
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText)
         {
             return ExecuteDataTable(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static DataTable ExecuteDataTable(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteDataTable(null, commandType, commandText, commandParameters);
         }
-        public static DataTable ExecuteDataTable(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             DataSet ds = ExecuteDataSet(strCon, commandType, commandText, commandParameters);
             if (ds == null || ds.Tables.Count <= 0)
@@ -123,15 +137,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region DataSet
-        public static DataSet ExecuteDataSet(CommandType commandType, string commandText)
+        public DataSet ExecuteDataSet(CommandType commandType, string commandText)
         {
             return ExecuteDataSet(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static DataSet ExecuteDataSet(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataSet ExecuteDataSet(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteDataSet(null, commandType, commandText, commandParameters);
         }
-        public static DataSet ExecuteDataSet(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataSet ExecuteDataSet(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             if (strCon == null || strCon == "")
                 strCon = _ConString;
@@ -140,7 +154,7 @@ namespace ExtensionLibHelper.DataLibHelper
                 return ExecuteDataset(conn, commandType, commandText, commandParameters);
             }
         }
-        public static DataSet ExecuteDataset(MySqlConnection connection, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public DataSet ExecuteDataset(MySqlConnection connection, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             //DateTime timeStart = DateTime.Now;
             if (connection == null) throw new ArgumentNullException("connection");
@@ -167,15 +181,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region NonQuery
-        public static int ExecuteNonQuery(CommandType commandType, string commandText)
+        public int ExecuteNonQuery(CommandType commandType, string commandText)
         {
             return ExecuteNonQuery(null, commandType, commandText, null);
         }
-        public static int ExecuteNonQuery(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public int ExecuteNonQuery(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteNonQuery(null, commandType, commandText, commandParameters);
         }
-        public static int ExecuteNonQuery(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public int ExecuteNonQuery(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             if (strCon == null || strCon == "")
                 strCon = _ConString;
@@ -196,15 +210,15 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
 
         #region byte[]
-        public static byte[] Executebytes(CommandType commandType, string commandText)
+        public byte[] Executebytes(CommandType commandType, string commandText)
         {
             return ExecuteBytes(null, commandType, commandText, (MySqlParameter[])null);
         }
-        public static byte[] Executebytes(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public byte[] Executebytes(CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             return ExecuteBytes(null, commandType, commandText, commandParameters);
         }
-        public static byte[] ExecuteBytes(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public byte[] ExecuteBytes(string strCon, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             if (strCon == null || strCon == "")
                 strCon = _ConString;
@@ -213,7 +227,7 @@ namespace ExtensionLibHelper.DataLibHelper
                 return Executebytes(conn, commandType, commandText, commandParameters);
             }
         }
-        public static byte[] Executebytes(MySqlConnection connection, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
+        public byte[] Executebytes(MySqlConnection connection, CommandType commandType, string commandText, params MySqlParameter[] commandParameters)
         {
             //DateTime timeStart = DateTime.Now;
             if (connection == null) throw new ArgumentNullException("connection");
@@ -242,4 +256,3 @@ namespace ExtensionLibHelper.DataLibHelper
         #endregion
     }
 }
-

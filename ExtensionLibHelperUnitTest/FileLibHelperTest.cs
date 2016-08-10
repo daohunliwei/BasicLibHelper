@@ -12,8 +12,10 @@ namespace ExtensionLibHelperUnitTest
         public void TestMethod1()
         {
             //测试Ini读取
-            //var ini = new IniHelper("demo.ini");
-            //ini.Write("section", "test", "你麻痹");   
+            var ini = new IniHelper("C:\\CodingWorld\\1Configuration.ini");
+            ini.Write("section", "test", "你麻痹","的");
+            var tes = ini.ReadValue("test", "section");
+            Console.WriteLine(tes);
         }
     }
 }
