@@ -76,6 +76,7 @@
     <Compile Include="DataLibHelper\SqliteHelper.cs" />
     <Compile Include="DataLibHelper\SqlServerHelper.cs" />
     <Compile Include="FileLibHelper\IniHelper.cs" />
+    <Compile Include="NetLibHelper\HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="NetLibHelper\" />
     <Folder Include="ToolsLibHelper\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
