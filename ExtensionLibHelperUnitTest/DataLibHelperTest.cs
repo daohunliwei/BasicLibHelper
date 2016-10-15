@@ -12,8 +12,8 @@ namespace ExtensionLibHelperUnitTest
         public void TestMethodMySQL()
         { 
             MySQLHelper sqlhelper = new MySQLHelper(); 
-            sqlhelper.ConString = "Server=192.211.55.2;Database=SpiderMan; User=daodao;Password=doyouloveme123!;Use Procedure Bodies=false;Charset=utf8;Allow Zero Datetime=True; Pooling=false; Max Pool Size=50;";
-            var newtest=sqlhelper.ExecuteDataTable(CommandType.Text, "select * from Test");
+            sqlhelper.ConString = "Server=localhost;Database=HomeKit; User=root;Password=;Use Procedure Bodies=false;Charset=utf8;Allow Zero Datetime=True; Pooling=false; Max Pool Size=50;";
+            var newtest=sqlhelper.ExecuteDataTable(CommandType.Text, "select * from systemconfiguration");
         }
     }
 }
